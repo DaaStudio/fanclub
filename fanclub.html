@@ -1,403 +1,349 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>User Profiles</title>
-<style>
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-    color: #fff;
-    padding: 20px;
-  }
-  h2 {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  #controls {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 12px;
-    margin-bottom: 24px;
-  }
-  #search, #sortSelect {
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 10px;
-    border: none;
-    outline: none;
-  }
-  #search {
-    width: 200px;
-  }
-  .container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
-  }
-  .box {
-    background: #ffffff10;
-    backdrop-filter: blur(10px);
-    border: 1px solid #ffffff30;
-    border-radius: 16px;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-  .box:hover {
-    transform: scale(1.03);
-    box-shadow: 0 6px 18px rgba(255, 255, 255, 0.2);
-  }
-  .profile-pic {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid #fff;
-    margin-bottom: 10px;
-  }
-  .username {
-    font-size: 17px;
-    font-weight: bold;
-    color: #fff;
-  }
-  .favorite-btn {
-    position: absolute;
-    top: 8px;
-    right: 10px;
-    background: none;
-    border: none;
-    font-size: 22px;
-    cursor: pointer;
-    color: gold;
-    z-index: 2;
-  }
-  .favorite-btn.inactive {
-    color: #ccc;
-    opacity: 0.7;
-  }
-  /* Star burst inside box (optional) */
-  .stars {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1);
-    font-size: 24px;
-    animation: burst 0.7s ease-out forwards;
-    pointer-events: none;
-  }
-  @keyframes burst {
-    0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    100% { opacity: 0; transform: translate(-50%, -50%) scale(3); }
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Cards</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #fff;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    #controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    #search, #sortSelect, #showFavoritesBtn {
+      padding: 10px 14px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+    }
+
+    #search {
+      width: 200px;
+    }
+
+    #showFavoritesBtn {
+      background-color: #f06292;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #showFavoritesBtn:disabled {
+      background-color: #999;
+      cursor: not-allowed;
+    }
+
+    #showFavoritesBtn:hover:enabled {
+      background-color: #ec407a;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .box {
+      background: #ffffff10;
+      backdrop-filter: blur(10px);
+      border: 1px solid #ffffff30;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .box:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 18px rgba(255, 255, 255, 0.2);
+    }
+
+    .profile-pic {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #fff;
+      margin-bottom: 10px;
+    }
+
+    .username {
+      font-size: 17px;
+      font-weight: bold;
+      color: #fff;
+      margin-top: 6px;
+    }
+
+    .stars-row {
+      color: white;
+      font-size: 26px;
+      margin-top: 6px;
+      cursor: pointer;
+    }
+
+    .star {
+      color: white;
+      transition: color 0.3s;
+    }
+
+    .star.selected {
+      color: gold;
+    }
+
+    .favorite-btn {
+      position: absolute;
+      top: 8px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: #f06292;
+      z-index: 2;
+    }
+
+    .favorite-btn.inactive {
+      color: #ccc;
+      opacity: 0.7;
+    }
+
+    .falling-heart,
+    .falling-star {
+      position: fixed;
+      top: -30px;
+      font-size: 28px;
+      animation: fall 2s ease-in forwards;
+      z-index: 9999;
+      pointer-events: none;
+    }
+
+    .falling-heart {
+      color: #f06292;
+    }
+
+    .falling-star {
+      color: gold;
+    }
+
+    @keyframes fall {
+      0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+      100% { opacity: 0; transform: translateY(400px) rotate(360deg); }
+    }
+
+    #toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #333;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      z-index: 999;
+    }
+
+    #toast.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      }
+    }
+  </style>
 </head>
 <body>
 
 <h2>User Profiles</h2>
-
 <div id="controls">
-  <input type="text" id="search" placeholder="Search usernames..." />
+  <input type="text" id="search" placeholder="Search usernames...">
   <select id="sortSelect">
     <option value="az">Sort A-Z</option>
     <option value="za">Sort Z-A</option>
-    <option value="fav">Only Favorites</option>
+    <option value="favcount">Most Favorites</option>
   </select>
+  <button id="showFavoritesBtn">❤️ Show Favorites 0</button>
 </div>
 
 <div class="container" id="container"></div>
+<div id="toast">Added to Favorites!</div>
+
+<audio id="heartSound" src="https://cdn.pixabay.com/download/audio/2023/03/26/audio_94b0096832.mp3?filename=pop-1-110124.mp3"></audio>
+<audio id="starClickSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_284fa35664.mp3?filename=interface-124464.mp3"></audio>
 
 <script>
-  // All usernames with their corresponding images (complete list)
   const users = [
-    { username: "aaydasss", image: "https://i.hizliresim.com/o92hrwi.jpg" },
-    { username: "addisonraee", image: "https://i.hizliresim.com/q44m4o2.jpg" },
-    { username: "albayrakcihann", image: "https://i.hizliresim.com/hfoamw5.jpg" },
-    { username: "aleynatilkiofficial", image: "https://i.hizliresim.com/7xsna6f.jpg" },
-    { username: "alibicim", image: "https://i.hizliresim.com/kstpdq7.jpg" },
-    { username: "alperrende", image: "https://i.hizliresim.com/jhlbwit.jpg" },
-    { username: "annadenizsayln", image: "https://i.hizliresim.com/odu04h7.jpg" },
-    { username: "arianagrande", image: "https://i.hizliresim.com/hu53inp.jpg" },
-    { username: "arishfakhan138", image: "https://i.hizliresim.com/4vwgwy1.jpg" },
-    { username: "aslibekiro", image: "https://i.hizliresim.com/rqk2sa7.jpg" },
-    { username: "asyaburcum", image: "https://i.hizliresim.com/b0403fc.jpg" },
-    { username: "atakanozyurt", image: "https://i.hizliresim.com/g7pasps.jpg" },
-    { username: "avani", image: "https://i.hizliresim.com/pbvxqz7.jpg" },
-    { username: "avneetkaur_13", image: "https://i.hizliresim.com/sqph6jl.jpg" },
-    { username: "awez_darbar", image: "https://i.hizliresim.com/sw6cm3q.jpg" },
-    { username: "aydakutay", image: "https://i.hizliresim.com/i0jx6rz.jpg" },
-    { username: "aykutelmas", image: "https://i.hizliresim.com/lxyc37e.jpg" },
-    { username: "babyariel", image: "https://i.hizliresim.com/a4lkc07.jpg" },
-    { username: "badgalriri", image: "https://i.hizliresim.com/p7q8ymd.jpg" },
-    { username: "barisresmii", image: "https://i.hizliresim.com/joh0r61.jpg" },
-    { username: "bartuthedev", image: "https://i.hizliresim.com/bq0vduo.jpg" },
-    { username: "belinaysandkc", image: "https://i.hizliresim.com/kbrojka.jpg" },
-    { username: "bellapoarch", image: "https://i.hizliresim.com/185mjtu.jpg" },
-    { username: "benaspenya", image: "https://i.hizliresim.com/3rna15m.jpg" },
-    { username: "berkcan", image: "https://i.hizliresim.com/8tuvkkt.jpg" },
-    { username: "berkcicekgil", image: "https://i.hizliresim.com/9vu5o5z.jpg" },
-    { username: "berkcoskun", image: "https://i.hizliresim.com/6j134sa.jpg" },
-    { username: "berkejuan", image: "https://i.hizliresim.com/qcj00nl.jpg" },
-    { username: "betulcakmaak", image: "https://i.hizliresim.com/4np2qk7.jpg" },
-    { username: "beyaz.golgee", image: "https://i.hizliresim.com/61lnzhw.jpg" },
-    { username: "beyonce", image: "https://i.hizliresim.com/jy5r3n3.jpg" },
-    { username: "bilalhanci", image: "https://i.hizliresim.com/8dyog7z.jpg" },
-    { username: "billieeilish", image: "https://i.hizliresim.com/1l8hn1w.jpg" },
-    { username: "brentrivera", image: "https://i.hizliresim.com/lla0oz7.jpg" },
-    { username: "brody_wellmaker", image: "https://i.hizliresim.com/sneiubb.jpg" },
-    { username: "brookemonk", image: "https://i.hizliresim.com/7vrn5na.jpg" },
-    { username: "btwitslucky", image: "https://i.hizliresim.com/qmjxx8i.jpg" },
-    { username: "burcues", image: "https://i.hizliresim.com/pakyvxs.jpg" },
-    { username: "busekorkmaziniz", image: "https://i.hizliresim.com/a84s3kb.jpg" },
-    { username: "cellatiniz", image: "https://i.hizliresim.com/hhld8q4.jpg" },
-    { username: "cemalcancanseven", image: "https://i.hizliresim.com/ghufvts.jpg" },
-    { username: "cemresolmaz", image: "https://i.hizliresim.com/5g8z5d4.jpg" },
-    { username: "cerenyaldz", image: "https://i.hizliresim.com/4qsgka6.jpg" },
-    { username: "charlidamelio", image: "https://i.hizliresim.com/ajqpmv5.jpg" },
-    { username: "chrisevans", image: "https://i.hizliresim.com/ndk2x3b.jpg" },
-    { username: "cilgin_dondurmaci", image: "https://i.hizliresim.com/sujqyke.jpg" },
-    { username: "cznburak", image: "https://i.hizliresim.com/6nw1pyw.jpg" },
-    { username: "daniellabelle1", image: "https://i.hizliresim.com/7vjyt5n.jpg" },
-    { username: "daniellecohn", image: "https://i.hizliresim.com/7ooij11.jpg" },
-    { username: "danlabilic", image: "https://i.hizliresim.com/t5dg8l6.jpg" },
-    { username: "davidbeckham", image: "https://i.hizliresim.com/7qn2qsz.jpg" },
-    { username: "delimine", image: "https://i.hizliresim.com/h1ydae2.jpg" },
-    { username: "dixiedamelio", image: "https://i.hizliresim.com/i0h4y25.jpg" },
-    { username: "dobretwins", image: "https://i.hizliresim.com/77zfly0.jpg" },
-    { username: "doganay.oguz", image: "https://i.hizliresim.com/adepi38.jpg" },
-    { username: "dualipa", image: "https://i.hizliresim.com/2to9vbz.jpg" },
-    { username: "duyguozaslan", image: "https://i.hizliresim.com/r8p64zw.jpg" },
-    { username: "ecenazucer", image: "https://i.hizliresim.com/majvege.jpg" },
-    { username: "eceronayofficial", image: "https://i.hizliresim.com/3t7mcdv.jpg" },
-    { username: "elanur", image: "https://i.hizliresim.com/o9x667z.jpg" },
-    { username: "elvin", image: "https://i.hizliresim.com/bfxi2rb.jpg" },
-    { username: "elwind", image: "https://i.hizliresim.com/3vf8z0c.jpg" },
-    { username: "enesbatur", image: "https://i.hizliresim.com/5gtxmp4.jpg" },
-    { username: "ezgizem", image: "https://i.hizliresim.com/jsp6se5.jpg" },
-    { username: "ezhel06", image: "https://i.hizliresim.com/jjxd0or.jpg" },
-    { username: "fatihyasinim", image: "https://i.hizliresim.com/o77etmf.jpg" },
-    { username: "feridehilalakin", image: "https://i.hizliresim.com/1oy6d7f.jpg" },
-    { username: "furkanyamanhdd", image: "https://i.hizliresim.com/i8ok6am.jpg" },
-    { username: "gilmhercroes", image: "https://i.hizliresim.com/cbo6342.jpg" },
-    { username: "gima_ashi", image: "https://i.hizliresim.com/dq01xlx.jpg" },
-    { username: "hadise", image: "https://i.hizliresim.com/8pf0pw7.jpg" },
-    { username: "halilibrahimgoker", image: "https://i.hizliresim.com/qn3a47m.jpg" },
-    { username: "harrystyles", image: "https://i.hizliresim.com/mlccv1w.jpg" },
-    { username: "hayrettin", image: "https://i.hizliresim.com/2i7ntgn.jpg" },
-    { username: "iamnishaguragain", image: "https://i.hizliresim.com/7iblgin.jpg" },
-    { username: "iamspencerx", image: "https://i.hizliresim.com/fxbi90h.jpg" },
-    { username: "ilydkrd", image: "https://i.hizliresim.com/68f8bkr.jpg" },
-    { username: "imalanstokes", image: "https://i.hizliresim.com/6rd4g9x.jpg" },
-    { username: "iremderici", image: "https://i.hizliresim.com/6ah7tai.jpg" },
-    { username: "itsjojosiwa", image: "https://i.hizliresim.com/psfnu8v.jpg" },
-    { username: "jacobsartorius", image: "https://i.hizliresim.com/9cb21bm.jpg" },
-    { username: "jamescharles", image: "https://i.hizliresim.com/gdiivt9.jpg" },
-    { username: "jannatzubair29", image: "https://i.hizliresim.com/aadnyk9.jpg" },
-    { username: "jasoncoffee", image: "https://i.hizliresim.com/e8796a2.jpg" },
-    { username: "jasonderulo", image: "https://i.hizliresim.com/7pxv6kv.jpg" },
-    { username: "jasonstatham", image: "https://i.hizliresim.com/htp4ao0.jpg" },
-    { username: "jayden", image: "https://i.hizliresim.com/9m4hinm.jpg" },
-    { username: "jennierubyjane", image: "https://i.hizliresim.com/o77c3ie.jpg" },
-    { username: "jeremyrenner", image: "https://i.hizliresim.com/e5qviad.jpg" },
-    { username: "joe.bartolozzi", image: "https://i.hizliresim.com/8z83luf.jpg" },
-    { username: "joeealbanese", image: "https://i.hizliresim.com/lxngm6j.jpg" },
-    { username: "joshrichards", image: "https://i.hizliresim.com/6736ivt.jpg" },
-    { username: "justinbieber", image: "https://i.hizliresim.com/3ftqp3s.jpg" },
-    { username: "justintimberlake", image: "https://i.hizliresim.com/ox19dts.jpg" },
-    { username: "justmaiko", image: "https://i.hizliresim.com/6lj0tjh.jpg" },
-    { username: "kallmekris_4", image: "https://i.hizliresim.com/f34g8pk.jpg" },
-    { username: "karolsevillaofc", image: "https://i.hizliresim.com/m7kaq92.jpg" },
-    { username: "katyperry", image: "https://i.hizliresim.com/kwludj6.jpg" },
-    { username: "keemokazi", image: "https://i.hizliresim.com/1hyauf7.jpg" },
-    { username: "kendinemuzisyen", image: "https://i.hizliresim.com/hehej3o.jpg" },
-    { username: "kerimcandurmaz", image: "https://i.hizliresim.com/qmhqixv.jpg" },
-    { username: "khaby00", image: "https://i.hizliresim.com/3wyobwy.jpg" },
-    { username: "kimberly.loaiza", image: "https://i.hizliresim.com/azyubv6.jpg" },
-    { username: "kirakosarin", image: "https://i.hizliresim.com/3b6f649.jpg" },
-    { username: "kursatjuan", image: "https://i.hizliresim.com/3qh3l12.jpg" },
-    { username: "kyliejenner", image: "https://i.hizliresim.com/kpic0mx.jpg" },
-    { username: "ladygaga", image: "https://i.hizliresim.com/byhez0f.jpg" },
-    { username: "lalalalisa_m", image: "https://i.hizliresim.com/ep73pt3.jpg" },
-    { username: "larissaburak", image: "https://i.hizliresim.com/5qc9zwj.jpg" },
-    { username: "lilhuddy", image: "https://i.hizliresim.com/3dmch1x.jpg" },
-    { username: "lizakoshy", image: "https://i.hizliresim.com/nesrkv2.jpg" },
-    { username: "loren", image: "https://i.hizliresim.com/kxgc7a7.jpg" },
-    { username: "markruffalo", image: "https://i.hizliresim.com/41dfmgv.jpg" },
-    { username: "meeryemcan", image: "https://i.hizliresim.com/r09hgzs.jpg" },
-    { username: "melisfis", image: "https://i.hizliresim.com/d5mnf38.jpg" },
-    { username: "meredithduxbury", image: "https://i.hizliresim.com/fxowlkh.jpg" },
-    { username: "mericizgix", image: "https://i.hizliresim.com/6wn5qs7.jpg" },
-    { username: "mervan", image: "https://i.hizliresim.com/mp77jhz.jpg" },
-    { username: "merveyalcin", image: "https://i.hizliresim.com/mfp8ssq.jpg" },
-    { username: "mesutcantomay", image: "https://i.hizliresim.com/4agfw0s.jpg" },
-    { username: "miafitz", image: "https://i.hizliresim.com/npubcng.jpg" },
-    { username: "mr_faisu_07", image: "https://i.hizliresim.com/o8vwjkl.jpg" },
-    { username: "muratboz", image: "https://i.hizliresim.com/os8il14.jpg" },
-    { username: "muratenginekn", image: "https://i.hizliresim.com/2bxfp7y.jpg" },
-    { username: "mylifeaseva", image: "https://i.hizliresim.com/3yqsxtk.jpg" },
-    { username: "necatiakcay", image: "https://i.hizliresim.com/t7xmoj5.jpg" },
-    { username: "neymarjr", image: "https://i.hizliresim.com/5731979.jpg" },
-    { username: "Ninja", image: "https://i.hizliresim.com/51qxvf4.jpg" },
-    { username: "nnursema", image: "https://i.hizliresim.com/109jo20.jpg" },
-    { username: "nusr_et", image: "https://i.hizliresim.com/f2upnrj.jpg" },
-    { username: "oguzbay8o", image: "https://i.hizliresim.com/g5a48zb.jpg" },
-    { username: "oguzhanugur_", image: "https://i.hizliresim.com/2d6flp9.jpg" },
-    { username: "orkunisitmak", image: "https://i.hizliresim.com/7rjwjmu.jpg" },
-    { username: "ox_zung", image: "https://i.hizliresim.com/f9icxzm.jpg" },
-    { username: "pelinyarr", image: "https://i.hizliresim.com/41hgcm1.jpg" },
-    { username: "pewdiepie", image: "https://i.hizliresim.com/7wim35l.jpg" },
-    { username: "pintipanda", image: "https://i.hizliresim.com/gze9daq.jpg" },
-    { username: "pqueen92", image: "https://i.hizliresim.com/l1kwt46.jpg" },
-    { username: "qpark", image: "https://i.hizliresim.com/bf4049h.jpg" },
-    { username: "reynmen", image: "https://i.hizliresim.com/d87hlox.jpg" },
-    { username: "riyaz.14", image: "https://i.hizliresim.com/k59npgn.jpg" },
-    { username: "robertdowneyjr", image: "https://i.hizliresim.com/m4ufwqh.jpg" },
-    { username: "roses_are_rosie", image: "https://i.hizliresim.com/gi33zqo.jpg" },
-    { username: "ruhicenet", image: "https://i.hizliresim.com/lhgc94x.jpg" },
-    { username: "sameeksha.sud_", image: "https://i.hizliresim.com/ry1lv85.jpg" },
-    { username: "sav.labrant", image: "https://i.hizliresim.com/618mvpz.jpg" },
-    { username: "selenagomez", image: "https://i.hizliresim.com/7l3zudb.jpg" },
-    { username: "selinayalcn", image: "https://i.hizliresim.com/fuz0ouj.jpg" },
-    { username: "semiraminta", image: "https://i.hizliresim.com/ih3ei5w.jpg" },
-    { username: "senamiaonline", image: "https://i.hizliresim.com/m0imcm0.jpg" },
-    { username: "sserakorkmaz", image: "https://i.hizliresim.com/6rtzgvk.jpg" },
-    { username: "seydaerdogan", image: "https://i.hizliresim.com/diosm2w.jpg" },
-    { username: "shakira", image: "https://i.hizliresim.com/twg7fuv.jpg" },
-    { username: "shroud", image: "https://i.hizliresim.com/kq8bzld.jpg" },
-    { username: "sooyaaa__", image: "https://i.hizliresim.com/3wkxypz.jpg" },
-    { username: "tahaduymazz", image: "https://i.hizliresim.com/kiz7qqc.jpg" },
-    { username: "taylorswift", image: "https://i.hizliresim.com/h8dhlv9.jpg" },
-    { username: "tburaksahin", image: "https://i.hizliresim.com/b66kyg5.jpg" },
-    { username: "thebehz", image: "https://i.hizliresim.com/abvsdoe.jpg" },
-    { username: "therock", image: "https://i.hizliresim.com/dqokdql.jpg" },
-    { username: "theshilpashetty", image: "https://i.hizliresim.com/tpty79c.jpg" },
-    { username: "tiktokwrentagged", image: "https://i.hizliresim.com/2wn39q2.jpg" },
-    { username: "tomholland2013", image: "https://i.hizliresim.com/6ugb57g.jpg" },
-    { username: "totouchanemu", image: "https://i.hizliresim.com/l8hhfwg.jpg" },
-    { username: "tsm_myth", image: "https://i.hizliresim.com/as6kigz.jpg" },
-    { username: "tugaygok", image: "https://i.hizliresim.com/dcn5n64.jpg" },
-    { username: "tugcekndemr", image: "https://i.hizliresim.com/itu5z3s.jpg" },
-    { username: "tugkangonultas", image: "https://i.hizliresim.com/c95mkkt.jpg" },
-    { username: "uberkuloz", image: "https://i.hizliresim.com/e1engcw.jpg" },
-    { username: "ugurrbay", image: "https://i.hizliresim.com/7usyxgl.jpg" },
-    { username: "unlostv", image: "https://i.hizliresim.com/zo717r1.jpg" },
-    { username: "uzunmakarna", image: "https://i.hizliresim.com/4rwagxh.jpg" },
-    { username: "vindiesel", image: "https://i.hizliresim.com/ixhfm5e.jpg" },
-    { username: "willsmith", image: "https://i.hizliresim.com/plzdgom.jpg" },
-    { username: "wtcn", image: "https://i.hizliresim.com/58meikp.jpg" },
-    { username: "yarenalaca", image: "https://i.hizliresim.com/aygm4m5.jpg" },
-    { username: "yesimrsm1i", image: "https://i.hizliresim.com/gtu0vfp.jpg" },
-    { username: "yigitresmi", image: "https://i.hizliresim.com/lfs07mn.jpg" },
-    { username: "yusufsenli", image: "https://i.hizliresim.com/8s8exie.jpg" },
-    { username: "zachking", image: "https://i.hizliresim.com/rv2a6lf.jpg" }
+    { username: "aaydasss", image: "https://i.hizliresim.com/o92hrwi.jpg", favCount: 0 },
+    { username: "addisonraee", image: "https://i.hizliresim.com/q44m4o2.jpg", favCount: 0 },
+    { username: "albayrakcihann", image: "https://i.hizliresim.com/hfoamw5.jpg", favCount: 0 }
   ];
 
-  let favorites = new Set();
+  const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+  const favMap = JSON.parse(localStorage.getItem("favMap") || "{}");
+  const ratingsMap = JSON.parse(localStorage.getItem("ratingsMap") || "{}");
+  const container = document.getElementById("container");
+  const heartSound = document.getElementById("heartSound");
+  const starClickSound = document.getElementById("starClickSound");
+  const showFavoritesBtn = document.getElementById("showFavoritesBtn");
+  const toast = document.getElementById("toast");
+  let showingFavorites = false;
 
-  const container = document.getElementById('container');
-  const searchInput = document.getElementById('search');
-  const sortSelect = document.getElementById('sortSelect');
-
-  function render(usersToRender) {
-    container.innerHTML = '';
-    usersToRender.forEach(user => {
-      const box = document.createElement('div');
-      box.className = 'box';
-      box.title = `Go to profile of ${user.username}`;
-      
-      box.addEventListener('click', e => {
-        // Avoid triggering when clicking favorite button
-        if(e.target.classList.contains('favorite-btn')) return;
-        window.open(`https://instagram.com/${user.username}`, '_blank');
-      });
-
-      const img = document.createElement('img');
-      img.src = user.image;
-      img.alt = user.username;
-      img.className = 'profile-pic';
-
-      const usernameDiv = document.createElement('div');
-      usernameDiv.className = 'username';
-      usernameDiv.textContent = user.username;
-
-      const favBtn = document.createElement('button');
-      favBtn.className = 'favorite-btn';
-      favBtn.innerHTML = favorites.has(user.username) ? '⭐' : '☆';
-      if(!favorites.has(user.username)) favBtn.classList.add('inactive');
-
-      favBtn.addEventListener('click', e => {
-        e.stopPropagation();
-        if(favorites.has(user.username)) {
-          favorites.delete(user.username);
-          favBtn.innerHTML = '☆';
-          favBtn.classList.add('inactive');
-        } else {
-          favorites.add(user.username);
-          favBtn.innerHTML = '⭐';
-          favBtn.classList.remove('inactive');
-          showStars();
-        }
-      });
-
-      box.appendChild(img);
-      box.appendChild(usernameDiv);
-      box.appendChild(favBtn);
-      container.appendChild(box);
-    });
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 2000);
   }
 
-  // Star animation from top center of the page
-  function showStars() {
-    const starContainer = document.createElement('div');
-    starContainer.style.position = 'fixed';
-    starContainer.style.top = '0';
-    starContainer.style.left = '50%';
-    starContainer.style.transform = 'translateX(-50%)';
-    starContainer.style.pointerEvents = 'none';
-    starContainer.style.zIndex = '9999';
-    starContainer.style.fontSize = '30px';
-    starContainer.style.color = 'gold';
-    starContainer.style.userSelect = 'none';
-    starContainer.textContent = '⭐⭐⭐⭐⭐';
-
-    document.body.appendChild(starContainer);
-
-    starContainer.animate([
-      { transform: 'translateX(-50%) translateY(0)', opacity: 1 },
-      { transform: 'translateX(-50%) translateY(300px)', opacity: 0 }
-    ], {
-      duration: 1500,
-      easing: 'ease-out',
-    });
-
-    setTimeout(() => starContainer.remove(), 1500);
+  function isFav(name) {
+    return favorites.includes(name);
   }
 
-  function filterAndSort() {
-    let filtered = users.filter(user => user.username.toLowerCase().includes(searchInput.value.toLowerCase()));
-    const sortValue = sortSelect.value;
-
-    if(sortValue === 'az') {
-      filtered.sort((a,b) => a.username.localeCompare(b.username));
-    } else if(sortValue === 'za') {
-      filtered.sort((a,b) => b.username.localeCompare(a.username));
-    } else if(sortValue === 'fav') {
-      filtered = filtered.filter(user => favorites.has(user.username));
+  function toggleFavorite(name, event) {
+    event.stopPropagation();
+    const box = event.target.closest('.box');
+    const idx = favorites.indexOf(name);
+    if (idx > -1) {
+      favorites.splice(idx, 1);
+      favMap[name] = Math.max((favMap[name] || 1) - 1, 0);
+    } else {
+      favorites.push(name);
+      favMap[name] = (favMap[name] || 0) + 1;
+      createFallingHearts(5);
+      if (heartSound) heartSound.play();
+      showToast("Added to Favorites!");
     }
-    render(filtered);
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+    localStorage.setItem("favMap", JSON.stringify(favMap));
+    renderItems(showingFavorites);
   }
 
-  searchInput.addEventListener('input', filterAndSort);
-  sortSelect.addEventListener('change', filterAndSort);
+  function createFallingHearts(count) {
+    for (let i = 0; i < count; i++) {
+      const heart = document.createElement("div");
+      heart.className = "falling-heart";
+      heart.textContent = "❤️";
+      heart.style.left = (Math.random() * window.innerWidth) + "px";
+      document.body.appendChild(heart);
+      heart.addEventListener("animationend", () => heart.remove());
+    }
+  }
 
-  // Initial render sorted A-Z
-  filterAndSort();
+  function createFallingStars(count) {
+    for (let i = 0; i < count; i++) {
+      const star = document.createElement("div");
+      star.className = "falling-star";
+      star.textContent = "★";
+      star.style.left = (Math.random() * window.innerWidth) + "px";
+      document.body.appendChild(star);
+      star.addEventListener("animationend", () => star.remove());
+    }
+  }
+
+  function renderItems(filterFavorites = false) {
+    showingFavorites = filterFavorites;
+    const search = document.getElementById("search").value.toLowerCase();
+    const sort = document.getElementById("sortSelect").value;
+
+    let filtered = users.filter(u => u.username.toLowerCase().includes(search));
+
+    if (filterFavorites) {
+      filtered = filtered.filter(u => isFav(u.username));
+    }
+
+    if (sort === "az") filtered.sort((a, b) => a.username.localeCompare(b.username));
+    if (sort === "za") filtered.sort((a, b) => b.username.localeCompare(a.username));
+    if (sort === "favcount") filtered.sort((a, b) => (favMap[b.username] || 0) - (favMap[a.username] || 0));
+
+    container.innerHTML = "";
+    filtered.forEach(user => {
+      const div = document.createElement("div");
+      div.className = "box";
+      div.onclick = () => window.location.href = `/${user.username}`;
+
+      const imgTag = user.image ? `<img src="${user.image}" class="profile-pic">` : "";
+      const favClass = isFav(user.username) ? "" : "inactive";
+
+      const username = document.createElement("div");
+      username.className = "username";
+      username.textContent = `@${user.username}`;
+
+      const stars = document.createElement("div");
+      stars.className = "stars-row";
+      let rating = ratingsMap[user.username] || 0;
+      for (let i = 1; i <= 5; i++) {
+        const star = document.createElement("span");
+        star.className = "star";
+        star.textContent = "★";
+        if (i <= rating) star.classList.add("selected");
+        star.addEventListener("click", (e) => {
+          e.stopPropagation();
+          rating = i;
+          ratingsMap[user.username] = rating;
+          localStorage.setItem("ratingsMap", JSON.stringify(ratingsMap));
+          updateStars();
+          if (starClickSound) starClickSound.play();
+          createFallingStars(i);
+        });
+        stars.appendChild(star);
+      }
+
+      function updateStars() {
+        const allStars = stars.querySelectorAll(".star");
+        allStars.forEach((star, idx) => {
+          star.classList.toggle("selected", idx < rating);
+        });
+      }
+
+      div.innerHTML = `
+        <button class="favorite-btn ${favClass}" onclick="toggleFavorite('${user.username}', event)">❤</button>
+        ${imgTag}
+      `;
+
+      div.appendChild(username);
+      div.appendChild(stars);
+
+      container.appendChild(div);
+    });
+
+    showFavoritesBtn.textContent = `❤️ Show Favorites ${favorites.length}`;
+    showFavoritesBtn.disabled = favorites.length === 0;
+  }
+
+  document.getElementById("search").addEventListener("input", () => renderItems(showingFavorites));
+  document.getElementById("sortSelect").addEventListener("change", () => renderItems(showingFavorites));
+  showFavoritesBtn.addEventListener("click", () => {
+    if (favorites.length === 0) return;
+    renderItems(!showingFavorites);
+  });
+
+  renderItems();
 </script>
 
 </body>
