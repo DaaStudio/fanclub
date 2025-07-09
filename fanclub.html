@@ -475,21 +475,26 @@
       stars.className = "stars-row";
       let rating = ratingsMap[user.username] || 0;
       for (let i = 1; i <= 5; i++) {
-        const star = document.createElement("span");
-        star.className = "star";
-        star.textContent = "★";
-        if (i <= rating) star.classList.add("selected");
-        star.addEventListener("click", (e) => {
-          e.stopPropagation();
+      const star = document.createElement("span");
+      star.className = "star";
+      star.textContent = "★";
+      if (i <= rating) star.classList.add("selected");
+      star.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (rating === i) {
+          rating = 0; // Sıfırla
+        } else {
           rating = i;
-          ratingsMap[user.username] = rating;
-          localStorage.setItem("ratingsMap", JSON.stringify(ratingsMap));
-          updateStars();
-          if (starClickSound) starClickSound.play();
-          createFallingStars(i);
-        });
-        stars.appendChild(star);
-      }
+        }
+        ratingsMap[user.username] = rating;
+        localStorage.setItem("ratingsMap", JSON.stringify(ratingsMap));
+        updateStars();
+        if (starClickSound) starClickSound.play();
+        createFallingStars(rating);
+      });
+      stars.appendChild(star);
+    }
+
 
       function updateStars() {
         const allStars = stars.querySelectorAll(".star");
