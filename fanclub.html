@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Puan Ver Sitesi</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f3f3f3;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 15px;
+    }
+
+    .box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .username {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 8px 15px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+<h2>İsim Listesi – Puan Ver</h2>
+<div class="container">
+  <!-- Kutular burada olacak -->
+</div>
+
+<script>
+  const usernames = `aaydasss, addisonraee, albayrakcihann, aleynatilkiofficial, alibicim, alperrende, annadenizsayln, arianagrande, arishfakhan138, aslibekiro, asyaburcum, atakanozyurt, avani, avneetkaur_13, awez_darbar, aydakutay, aykutelmas, babyariel, badgalriri, barisresmii, bartuthedev, belinaysandkc, bellapoarch, benaspenya, berkcan, berkcicekgil, berkcoskun, berkejuan, betulcakmaak, beyaz.golgee, beyonce, bilalhanci, billieeilish, brentrivera, brody_wellmaker, brookemonk, btwitslucky, burcues, busekorkmaziniz, cellatiniz, cemalcancanseven, cemresolmaz, cerenyaldz, charlidamelio, chrisevans, cilgin_dondurmaci, cznburak, daniellabelle1, daniellecohn, danlabilic, davidbeckham, delimine, dixiedamelio, dobretwins, doganay.oguz, dualipa, duyguozaslan, ecenazucer, eceronayofficial, elanur, elvin, elwind, enesbatur, ezgizem, ezhel06, fatihyasinim, feridehilalakin, furkanyamanhdd, gilmhercroes, gima_ashi, hadise, halilibrahimgoker, harrystyles, hayrettin, iamnishaguragain, iamspencerx, ilydkrd, imalanstokes, iremderici, itsjojosiwa, jacobsartorius, jamescharles, jannatzubair29, jasoncoffee, jasonderulo, jasonstatham, jayden, jennierubyjane, jeremyrenner, joe.bartolozzi, joeealbanese, joshrichards, justinbieber, justintimberlake, justmaiko, kallmekris_4, karolsevillaofc, katyperry, keemokazi, kendinemuzisyen, kerimcandurmaz, khaby00, kimberly.loaiza, kirakosarin, kursatjuan, kyliejenner, ladygaga, lalalalisa_m, larissaburak, lilhuddy, lizakoshy, loren, markruffalo, meeryemcan, melisfis, meredithduxbury, mericizgix, mervan, merveyalcin, mesutcantomay, miafitz, mr_faisu_07, muratboz, muratenginekn, mylifeaseva, necatiakcay, neymarjr, Ninja, nnursema, nusr_et, oguzbay8o, oguzhanugur_, orkunisitmak, ox_zung, pelinyarr, pewdiepie, pintipanda, pokimanelol, pqueen92, qpark, reynmen, riyaz.14, robertdowneyjr, roses_are_rosie, ruhicenet, sameeksha.sud_, sav.labrant, selenagomez, selinayalcn, semiraminta, senamiaonline, sserakorkmaz, seydaerdogan, shakira, shroud, sooyaaa__, tahaduymazz, taylorswift, tburaksahin, thebehz, therock, theshilpashetty, tiktokwrentagged, tomholland2013, totouchanemu, tsm_myth, tugaygok, tugcekndemr, tugkangonultas, uberkuloz, ugurrbay, unlostv, uzunmakarna, vindiesel, willsmith, wtcn, yarenalaca, yesimrsm1i, yigitresmi, yusufsenli, zachking`.split(',').map(s => s.trim());
+
+  const container = document.querySelector('.container');
+
+  usernames.forEach(name => {
+    const div = document.createElement('div');
+    div.className = 'box';
+    div.innerHTML = `<span class="username">@${name}</span><button class="button">Puan Ver</button>`;
+    container.appendChild(div);
+  });
+</script>
+
+</body>
+</html>
