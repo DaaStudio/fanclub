@@ -5,6 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fan Club</title>
   <style>
+    #menuBtn {
+  	position: fixed;
+ 	 top: 16px;
+ 	 left: 16px;
+ 	 background: none;
+ 	 border: none;
+ 	 font-size: 28px;
+ 	 color: white;
+  	cursor: pointer;
+ 	 z-index: 1000;
+  	transition: transform 0.2s;
+}
+
+	#menuBtn:hover {
+  	transform: scale(1.1);
+}
+
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
@@ -180,7 +198,7 @@
   </style>
 </head>
 <body>
-
+  <button id="menuBtn" title="Menu">☰</button>
 <h2>Fan Club</h2>
 <div id="controls">
   <input type="text" id="search" placeholder="Search usernames...">
@@ -337,49 +355,49 @@
     { username: "pelinyarr", image: "https://i.hizliresim.com/41hgcm1.jpg" },
     { username: "pewdiepie", image: "https://i.hizliresim.com/7wim35l.jpg" },
     { username: "pintipanda", image: "https://i.hizliresim.com/gze9daq.jpg" },
-    { username: "pqueen92", image: "https://i.hizliresim.com/l1kwt46.jpg" },
-    { username: "qpark", image: "https://i.hizliresim.com/bf4049h.jpg" },
-    { username: "reynmen", image: "https://i.hizliresim.com/d87hlox.jpg" },
-    { username: "riyaz.14", image: "https://i.hizliresim.com/k59npgn.jpg" },
-    { username: "robertdowneyjr", image: "https://i.hizliresim.com/m4ufwqh.jpg" },
-    { username: "roses_are_rosie", image: "https://i.hizliresim.com/gi33zqo.jpg" },
-    { username: "ruhicenet", image: "https://i.hizliresim.com/lhgc94x.jpg" },
-    { username: "sameeksha.sud_", image: "https://i.hizliresim.com/ry1lv85.jpg" },
-    { username: "sav.labrant", image: "https://i.hizliresim.com/618mvpz.jpg" },
-    { username: "selenagomez", image: "https://i.hizliresim.com/7l3zudb.jpg" },
-    { username: "selinayalcn", image: "https://i.hizliresim.com/fuz0ouj.jpg" },
-    { username: "semiraminta", image: "https://i.hizliresim.com/ih3ei5w.jpg" },
-    { username: "senamiaonline", image: "https://i.hizliresim.com/m0imcm0.jpg" },
-    { username: "sserakorkmaz", image: "https://i.hizliresim.com/6rtzgvk.jpg" },
-    { username: "seydaerdogan", image: "https://i.hizliresim.com/diosm2w.jpg" },
-    { username: "shakira", image: "https://i.hizliresim.com/twg7fuv.jpg" },
-    { username: "shroud", image: "https://i.hizliresim.com/kq8bzld.jpg" },
-    { username: "sooyaaa__", image: "https://i.hizliresim.com/3wkxypz.jpg" },
-    { username: "tahaduymazz", image: "https://i.hizliresim.com/kiz7qqc.jpg" },
-    { username: "taylorswift", image: "https://i.hizliresim.com/h8dhlv9.jpg" },
-    { username: "tburaksahin", image: "https://i.hizliresim.com/b66kyg5.jpg" },
-    { username: "thebehz", image: "https://i.hizliresim.com/abvsdoe.jpg" },
-    { username: "therock", image: "https://i.hizliresim.com/dqokdql.jpg" },
-    { username: "theshilpashetty", image: "https://i.hizliresim.com/tpty79c.jpg" },
-    { username: "tiktokwrentagged", image: "https://i.hizliresim.com/2wn39q2.jpg" },
-    { username: "tomholland2013", image: "https://i.hizliresim.com/6ugb57g.jpg" },
-    { username: "totouchanemu", image: "https://i.hizliresim.com/l8hhfwg.jpg" },
-    { username: "tsm_myth", image: "https://i.hizliresim.com/as6kigz.jpg" },
-    { username: "tugaygok", image: "https://i.hizliresim.com/dcn5n64.jpg" },
-    { username: "tugcekndemr", image: "https://i.hizliresim.com/itu5z3s.jpg" },
-    { username: "tugkangonultas", image: "https://i.hizliresim.com/c95mkkt.jpg" },
-    { username: "uberkuloz", image: "https://i.hizliresim.com/e1engcw.jpg" },
-    { username: "ugurrbay", image: "https://i.hizliresim.com/7usyxgl.jpg" },
-    { username: "unlostv", image: "https://i.hizliresim.com/zo717r1.jpg" },
-    { username: "uzunmakarna", image: "https://i.hizliresim.com/4rwagxh.jpg" },
-    { username: "vindiesel", image: "https://i.hizliresim.com/ixhfm5e.jpg" },
-    { username: "willsmith", image: "https://i.hizliresim.com/plzdgom.jpg" },
-    { username: "wtcn", image: "https://i.hizliresim.com/58meikp.jpg" },
-    { username: "yarenalaca", image: "https://i.hizliresim.com/aygm4m5.jpg" },
-    { username: "yesimrsm1i", image: "https://i.hizliresim.com/gtu0vfp.jpg" },
-    { username: "yigitresmi", image: "https://i.hizliresim.com/lfs07mn.jpg" },
-    { username: "yusufsenli", image: "https://i.hizliresim.com/8s8exie.jpg" },
-    { username: "zachking", image: "https://i.hizliresim.com/rv2a6lf.jpg" }
+     { username: "pqueen92", image: "https://i.hizliresim.com/bf4049h.jpg" },
+  { username: "qpark", image: "https://i.hizliresim.com/d87hlox.jpg" },
+  { username: "reynmen", image: "https://i.hizliresim.com/k59npgn.jpg" },
+  { username: "riyaz.14", image: "https://i.hizliresim.com/m4ufwqh.jpg" },
+  { username: "robertdowneyjr", image: "https://i.hizliresim.com/gi33zqo.jpg" },
+  { username: "roses_are_rosie", image: "https://i.hizliresim.com/lhgc94x.jpg" },
+  { username: "ruhicenet", image: "https://i.hizliresim.com/ry1lv85.jpg" },
+  { username: "sameeksha.sud_", image: "https://i.hizliresim.com/618mvpz.jpg" },
+  { username: "sav.labrant", image: "https://i.hizliresim.com/7l3zudb.jpg" },
+  { username: "selenagomez", image: "https://i.hizliresim.com/fuz0ouj.jpg" },
+  { username: "selinayalcn", image: "https://i.hizliresim.com/ih3ei5w.jpg" },
+  { username: "semiraminta", image: "https://i.hizliresim.com/m0imcm0.jpg" },
+  { username: "senamiaonline", image: "https://i.hizliresim.com/6rtzgvk.jpg" },
+  { username: "sserakorkmaz", image: "https://i.hizliresim.com/diosm2w.jpg" },
+  { username: "seydaerdogan", image: "https://i.hizliresim.com/twg7fuv.jpg" },
+  { username: "shakira", image: "https://i.hizliresim.com/kq8bzld.jpg" },
+  { username: "shroud", image: "https://i.hizliresim.com/3wkxypz.jpg" },
+  { username: "sooyaaa__", image: "https://i.hizliresim.com/kiz7qqc.jpg" },
+  { username: "tahaduymazz", image: "https://i.hizliresim.com/h8dhlv9.jpg" },
+  { username: "taylorswift", image: "https://i.hizliresim.com/b66kyg5.jpg" },
+  { username: "tburaksahin", image: "https://i.hizliresim.com/abvsdoe.jpg" },
+  { username: "thebehz", image: "https://i.hizliresim.com/dqokdql.jpg" },
+  { username: "therock", image: "https://i.hizliresim.com/tpty79c.jpg" },
+  { username: "theshilpashetty", image: "https://i.hizliresim.com/2wn39q2.jpg" },
+  { username: "tiktokwrentagged", image: "https://i.hizliresim.com/6ugb57g.jpg" },
+  { username: "tomholland2013", image: "https://i.hizliresim.com/l8hhfwg.jpg" },
+  { username: "totouchanemu", image: "https://i.hizliresim.com/as6kigz.jpg" },
+  { username: "tsm_myth", image: "https://i.hizliresim.com/dcn5n64.jpg" },
+  { username: "tugaygok", image: "https://i.hizliresim.com/itu5z3s.jpg" },
+  { username: "tugcekndemr", image: "https://i.hizliresim.com/c95mkkt.jpg" },
+  { username: "tugkangonultas", image: "https://i.hizliresim.com/e1engcw.jpg" },
+  { username: "uberkuloz", image: "https://i.hizliresim.com/7usyxgl.jpg" },
+  { username: "ugurrbay", image: "https://i.hizliresim.com/zo717r1.jpg" },
+  { username: "unlostv", image: "https://i.hizliresim.com/4rwagxh.jpg" },
+  { username: "uzunmakarna", image: "https://i.hizliresim.com/ixhfm5e.jpg" },
+  { username: "vindiesel", image: "https://i.hizliresim.com/plzdgom.jpg" },
+  { username: "willsmith", image: "https://i.hizliresim.com/58meikp.jpg" },
+  { username: "wtcn", image: "https://i.hizliresim.com/aygm4m5.jpg" },
+  { username: "yarenalaca", image: "https://i.hizliresim.com/gtu0vfp.jpg" },
+  { username: "yesimrsm1i", image: "https://i.hizliresim.com/lfs07mn.jpg" },
+  { username: "yigitresmi", image: "https://i.hizliresim.com/8s8exie.jpg" },
+  { username: "yusufsenli", image: "https://i.hizliresim.com/rv2a6lf.jpg" },
+  { username: "zachking", image: "https://i.hizliresim.com/helynvt.jpg" }
   ];
 
   const favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
@@ -475,25 +493,25 @@
       stars.className = "stars-row";
       let rating = ratingsMap[user.username] || 0;
       for (let i = 1; i <= 5; i++) {
-      const star = document.createElement("span");
-      star.className = "star";
-      star.textContent = "★";
-      if (i <= rating) star.classList.add("selected");
-      star.addEventListener("click", (e) => {
-        e.stopPropagation();
-        if (rating === i) {
-          rating = 0; // Sıfırla
-        } else {
-          rating = i;
-        }
-        ratingsMap[user.username] = rating;
-        localStorage.setItem("ratingsMap", JSON.stringify(ratingsMap));
-        updateStars();
-        if (starClickSound) starClickSound.play();
-        createFallingStars(rating);
-      });
-      stars.appendChild(star);
+  const star = document.createElement("span");
+  star.className = "star";
+  star.textContent = "★";
+  if (i <= rating) star.classList.add("selected");
+  star.addEventListener("click", (e) => {
+    e.stopPropagation();
+    if (rating === i) {
+      rating = 0; // Sıfırla
+    } else {
+      rating = i;
     }
+    ratingsMap[user.username] = rating;
+    localStorage.setItem("ratingsMap", JSON.stringify(ratingsMap));
+    updateStars();
+    if (starClickSound) starClickSound.play();
+    createFallingStars(rating);
+  });
+  stars.appendChild(star);
+}
 
 
       function updateStars() {
@@ -523,9 +541,14 @@
   showFavoritesBtn.addEventListener("click", () => {
     if (favorites.length === 0) return;
     renderItems(!showingFavorites);
+
   });
 
   renderItems();
+document.getElementById("menuBtn").addEventListener("click", () => {
+  window.location.href = "menu";
+});
+
 </script>
 
 </body>
